@@ -25,42 +25,24 @@ CASES = [
 ]
 
 
-def quote(text):
-    # 応答中のHTMLや自動更新マーカーが文書構造に干渉しないようにする。
-    return "\n".join("> " + html.escape(line, quote=False) for line in text.splitlines())
-
-
 def render(run):
+    # 回答全文はJSONログに残し、提出用の文書には結果表だけを載せる。
+    started_at = datetime.fromisoformat(run['started_at']).strftime('%Y-%m-%d %H:%M (%z)')
+    status = "完了" if run['status'].startswith('完了') else run['status']
     lines = [
-        "## 実APIの動作確認（自動記録）", "",
-        f"- 実行日時：{run['started_at']}",
+        "## 動作確認", "",
+        f"- 実行日時：{started_at}",
         f"- 使用モデル：{html.escape(run['model'])}",
-        f"- 実行ID：{run['id']}",
-        f"- 実行状態：{run['status']}",
-        "- 以下は実際に受け取った応答です。API応答の取得と、回答内容の正しさは別に確認します。",
-        "- 会話3はプロセス再起動ではなく、新しいチャットセッションで履歴をリセットした確認です。",
-        "", "| 確認項目 | 状態 | 入力トークン | 出力トークン | 応答時間（秒） |",
-        "|---|---|---:|---:|---:|",
+        f"- 実行状態：{status}",
+        "", "| 確認項目 | 状態 | 入力トークン | 出力トークン |",
+        "|---|---|---:|---:|",
     ]
     for row in run['results']:
         inp = row.get('input_tokens')
         out = row.get('output_tokens')
-        elapsed = row.get('seconds')
         lines.append(f"| {row['name']} | {row['status']} | "
                      f"{inp if inp is not None else '不明'} | "
-                     f"{out if out is not None else '不明'} | "
-                     f"{format(elapsed, '.3f') if elapsed is not None else '-'} |")
-    for row in run['results']:
-        lines.extend(["", f"### {row['name']}", "", "質問：", quote(row['question']), "",
-                      "回答／実行結果：", quote(row.get('response') or row.get('error') or '未実施')])
-    lines.extend([
-        "", "### 用語集の正しい定義（比較用）", "", quote(run['reference']), "",
-        "### 結果を読んで確認すること", "",
-        "- 会話2の回答が『青』だったか。会話3では情報不足だと回答したか。",
-        "- 宿題の3レベルへの回答と、上の用語集の定義で一致した点・異なる点。",
-        "- 会話履歴が増えたときの入力トークン数の変化。",
-        "", "内容の正しさ・気づき：未記入（実行結果を確認して、自動記録欄の外に追記する）。",
-    ])
+                     f"{out if out is not None else '不明'} |")
     return "\n".join(lines)
 
 

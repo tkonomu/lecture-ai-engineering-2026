@@ -50,12 +50,17 @@ def test_records_five_calls_and_real_sdk_history(prepared):
     report = answer.read_text(encoding='utf-8')
     assert '自分で書いた考察。' in report
     assert '| 会話2：履歴を参照する | 応答取得 | 20 | 5 |' in report
-    assert '基礎・実装・発展' in report
+    assert '未記入' not in report
+    assert '青。' not in report  # 回答全文は提出用の表には載せない
     assert 'offline-secret' not in report
     assert report.count(check.END) == 1
     log = json.loads(next((root / 'homework_runs').glob('*.json')).read_text())
     assert log['status'].startswith('完了')
     assert len(log['results']) == 5
+    assert log['reference'] == '基礎・実装・発展'
+    assert log['results'][0]['question'] == check.CASES[0][1]
+    assert log['results'][0]['response'] == '青。[REDACTED]\n' + check.END
+    assert log['results'][0]['seconds'] >= 0
     assert 'offline-secret' not in json.dumps(log)
 
 
