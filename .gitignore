@@ -10,5 +10,8 @@ __pycache__/
 # 個人の学習ログ（第3回の宿題で作成）は共有しない
 learning_log/
 
+# 第1回の実API動作確認ログ（提出用にはanswer.mdの内容を確認する）
+homework_runs/
+
 # macOS
 .DS_Store
