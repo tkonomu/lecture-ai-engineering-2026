@@ -32,6 +32,32 @@ uv run python -m app.ask "LoRAとは何ですか？"
 
 詳しい手順は [lectures/01/problem.md](lectures/01/problem.md) を見てください。
 
+### 第1回の実装：会話履歴とトークン数
+
+単発の質問はこれまでと同じコマンドで実行できます。回答ごとに入力・出力トークン数を表示します。
+`--chat` を付けると、前の質問と回答を踏まえて続けて質問できます。
+
+```bash
+uv run python -m app.ask --chat
+# 最初の質問を指定する場合
+uv run python -m app.ask --chat "LoRAとは何ですか？"
+```
+
+`/exit`、Ctrl-D、Ctrl-C で終了します。空行は送信しません。
+履歴は実行中のメモリだけに保持し、次回起動時にはリセットされます。
+APIエラーの場合は説明を表示して次の入力を受け付けます。
+トークン数がAPIから返らないときは「不明」と表示します。
+
+実際の会話には環境変数 `GEMINI_API_KEY` が必要です。
+自動テストは通信をモックに置き換えるため、APIキーもAPI利用料も不要です。
+`tests/test_ask.py` では実際のGoogle SDKのチャット処理を使い、
+2回目の呼び出しに前の質問と回答が含まれることや、失敗した質問が履歴に残らないことを確認します。
+
+```bash
+uv run pytest -q tests/test_ask.py
+uv run pytest -q
+```
+
 ## 構成
 
 ```
