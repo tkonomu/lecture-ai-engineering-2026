@@ -36,9 +36,16 @@ def response_text(response: types.GenerateContentResponse) -> str:
     return response.text or "[回答] テキストの回答がありませんでした。"
 
 
+def request(question: str, *, client, session=None) -> types.GenerateContentResponse:
+    """通常実行と宿題の動作確認で共通の呼び出し経路。"""
+    if session is not None:
+        return session.send_message(question)
+    return client.models.generate_content(model=MODEL, contents=question)
+
+
 def ask(question: str) -> str:
     with genai.Client(api_key=get_api_key()) as client:
-        response = client.models.generate_content(model=MODEL, contents=question)
+        response = request(question, client=client)
     return response_text(response)
 
 
@@ -59,7 +66,7 @@ def chat(initial_question: str | None = None) -> None:
                     question = None
                     continue
                 print(f"[質問] {question}")
-                response = session.send_message(question)
+                response = request(question, client=client, session=session)
                 print(response_text(response))
             except (EOFError, KeyboardInterrupt):
                 print("\n会話を終了しました。")
