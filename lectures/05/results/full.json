@@ -1,0 +1,24 @@
+{
+  "mode": "full",
+  "model": "gemini-3.5-flash-lite",
+  "question": "第2回の説明では、LoRAは何を固定し何を学習しますか？ QLoRAは何を加えますか？",
+  "run_at": "2026-11-23T20:58:47+09:00",
+  "rag_top_k": 5,
+  "input_sha256": {
+    "app/config.py": "da94eb1bb1e73664989076e8e993dd2a10b2871fe30146e48acbae7e90e4e5c3",
+    "app/agent.py": "00764c1d37438bc9ad12d4e32844f327778756d8b52998ed1b5ef2cc2720e581",
+    "app/tools.py": "f0e2fb3c6345a12637c5bfb8362bba23630f49d9d9f753c4ed2c2efecf7a78e1",
+    "app/retrieval.py": "721a57b79b7194a626da61c376ca12c16295dcb36492c1714d199b793afbdeca",
+    "data/rag_data/lectures.json": "f6022c177ec1b5575b56d21307a5ae2aa09c586047398a17e1e4b86a56e99dce",
+    "data/rag_data/tree.json": "8d16e7f6a6b5c4864591fbfe0ac55598f6117ff226e4b1e2bd47b0401be79dfc",
+    "data/rag_data/graph.json": "6d32f92f97470d9febbdb076face22b9c74eb2c57d4950d3ed31978c57007e81",
+    "data/rag_data/index.sqlite3": "600d7a3633d84c21b6b26d511f9cd701d7dbee32bfe8eab0fd6fee3affb0f69e"
+  },
+  "answer": "ご質問ありがとうございます。\n\nLoRAとQLoRAの学習対象および仕組みについては、以下の資料に記載されています。\n\n- **LoRAの仕組みと学習対象**\n  - 資料: `lec02-main / 基盤モデルの仕組み`\n  - ページ: PDF p.51（PEFT：モデル全体ではなく、一部だけを学習する）および p.52（LoRA と QLoRA ：大きなモデルも GPU 1 台で調整できる）\n\n- **QLoRAの追加要素**\n  - 資料: `lec02-main / 基盤モデルの仕組み`\n  - ページ: PDF p.51、p.52\n\n具体的な答えや用語そのものは書きませんが、考え方のヒントを以下に示します。\n\n1. **LoRAが固定するものと学習するもの**\n   - 大きな事前学習済みのモデル本体（重み）は動かさずに**固定**します。\n   - その代わりに、モデルの層の間に挟んだ「小さな追加部分（細長い2つの行列の積で表される差分）」だけを**学習**します。\n\n2. **QLoRAが加えるもの**\n   - LoRAの仕組み（差分だけを学習する点）に加えて、**元のモデルの重みをさらに「4bit」に圧縮して保持する**という処理が加わります。これにより、さらに少ないメモリで大きなモデルを調整できるようになります。\n\n詳細は該当ページの図解や説明もあわせて確認してみてください。",
+  "elapsed_seconds": 9.820468417019583,
+  "input_tokens": 117025,
+  "output_tokens": 324,
+  "model_requests": 1,
+  "estimated_generation_cost_usd": "0.0359175",
+  "tool_trace": []
+}
