@@ -1,0 +1,90 @@
+{
+  "mode": "vector",
+  "model": "gemini-3.5-flash-lite",
+  "question": "第2回の説明では、LoRAは何を固定し何を学習しますか？ QLoRAは何を加えますか？",
+  "run_at": "2026-11-23T20:59:01+09:00",
+  "rag_top_k": 5,
+  "input_sha256": {
+    "app/config.py": "da94eb1bb1e73664989076e8e993dd2a10b2871fe30146e48acbae7e90e4e5c3",
+    "app/agent.py": "00764c1d37438bc9ad12d4e32844f327778756d8b52998ed1b5ef2cc2720e581",
+    "app/tools.py": "f0e2fb3c6345a12637c5bfb8362bba23630f49d9d9f753c4ed2c2efecf7a78e1",
+    "app/retrieval.py": "721a57b79b7194a626da61c376ca12c16295dcb36492c1714d199b793afbdeca",
+    "data/rag_data/lectures.json": "f6022c177ec1b5575b56d21307a5ae2aa09c586047398a17e1e4b86a56e99dce",
+    "data/rag_data/tree.json": "8d16e7f6a6b5c4864591fbfe0ac55598f6117ff226e4b1e2bd47b0401be79dfc",
+    "data/rag_data/graph.json": "6d32f92f97470d9febbdb076face22b9c74eb2c57d4950d3ed31978c57007e81",
+    "data/rag_data/index.sqlite3": "600d7a3633d84c21b6b26d511f9cd701d7dbee32bfe8eab0fd6fee3affb0f69e"
+  },
+  "answer": "第2回の講義資料によると、LoRAとQLoRAの仕組みについて以下のように説明されています。\n\n* **LoRAが固定するもの**：元の重み（本体）を固定し、学習しません（第2回・PDF p.52）。\n* **LoRAが学習するもの**：細長い2つの小さな行列の積（低ランク）で表される「差分」（変化分）のみを学習します（第2回・PDF p.51, p.52）。\n* **QLoRAが加えるもの**：LoRAの手法に加えて、**元の重みを4bitに圧縮**（数値を粗く保存）することを加えます（第2回・PDF p.51, p.52）。",
+  "elapsed_seconds": 4.335165249998681,
+  "input_tokens": 3028,
+  "output_tokens": 185,
+  "model_requests": 2,
+  "estimated_generation_cost_usd": "0.0013709",
+  "tool_trace": [
+    {
+      "kind": "call",
+      "name": "search_materials",
+      "args": {
+        "query": "LoRA 固定 学習 QLoRA 加える"
+      }
+    },
+    {
+      "kind": "return",
+      "name": "search_materials",
+      "data": {
+        "results": [
+          {
+            "page_id": "lec02-main-p052",
+            "document_id": "lec02-main",
+            "lecture": 2,
+            "document_title": "基盤モデルの仕組み",
+            "section": "選んだモデルを、いつ・どう直すか",
+            "title": "LoRA と QLoRA ：大きなモデルも GPU 1 台で調整できる",
+            "page": 52,
+            "distance": 0.2185288667678833
+          },
+          {
+            "page_id": "lec02-main-p051",
+            "document_id": "lec02-main",
+            "lecture": 2,
+            "document_title": "基盤モデルの仕組み",
+            "section": "選んだモデルを、いつ・どう直すか",
+            "title": "PEFT ：モデル全体ではなく、一部だけを学習する",
+            "page": 51,
+            "distance": 0.2375873327255249
+          },
+          {
+            "page_id": "lec02-main-p060",
+            "document_id": "lec02-main",
+            "lecture": 2,
+            "document_title": "基盤モデルの仕組み",
+            "section": "選んだモデルを、いつ・どう直すか",
+            "title": "今日の演習： QLoRA で出力形式を矯正し、効果を測る",
+            "page": 60,
+            "distance": 0.2610666751861572
+          },
+          {
+            "page_id": "lec02-main-p047",
+            "document_id": "lec02-main",
+            "lecture": 2,
+            "document_title": "基盤モデルの仕組み",
+            "section": "選んだモデルを、いつ・どう直すか",
+            "title": "根拠と諸説：知識の追加は RAG が効きやすい",
+            "page": 47,
+            "distance": 0.2838040292263031
+          },
+          {
+            "page_id": "lec02-main-p061",
+            "document_id": "lec02-main",
+            "lecture": 2,
+            "document_title": "基盤モデルの仕組み",
+            "section": "選んだモデルを、いつ・どう直すか",
+            "title": "演習の進め方と提出物（仮）",
+            "page": 61,
+            "distance": 0.28742292523384094
+          }
+        ]
+      }
+    }
+  ]
+}
